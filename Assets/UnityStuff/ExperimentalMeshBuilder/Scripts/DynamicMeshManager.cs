@@ -258,18 +258,18 @@ public class DynamicMeshManager : MonoBehaviour
     /// </summary>
     public void OnGUI()
     {
-        GUI.Label(new Rect(10, 20, 1000, 30), "Persistent Path: " + Application.persistentDataPath);
-        GUI.Label(new Rect(10, 40, 1000, 30), "Total Verts/Triangles: " + m_totalVertices + "/" + m_totalTriangles + " Volumes: " + m_totalMeshCubes + " UpdateQueue:" + m_regenerationQueue.Count);
-        GUI.Label(new Rect(10, 60, 1000, 30), "Insert Count: " + m_insertCount);
-        GUI.Label(new Rect(10, 80, 1000, 30), "RemeshingTime: " + m_remeshingTime.ToString("F6") + " Remeshing Count: " + m_maximumRemeshingCountPerFrame);
-        GUI.Label(new Rect(10, 100, 1000, 30), "InsertionTime: " + m_pointInsertionTime.ToString("F6"));
-        GUI.Label(new Rect(10, 120, 1000, 30), "Last Update Time: " + m_lastUpdateTime.ToString("F6"));
-        GUI.Label(new Rect(10, 140, 1000, 30), "Version: " + "15.06.05");
+        //GUI.Label(new Rect(10, 20, 1000, 30), "Persistent Path: " + Application.persistentDataPath);
+        //GUI.Label(new Rect(10, 40, 1000, 30), "Total Verts/Triangles: " + m_totalVertices + "/" + m_totalTriangles + " Volumes: " + m_totalMeshCubes + " UpdateQueue:" + m_regenerationQueue.Count);
+        //GUI.Label(new Rect(10, 60, 1000, 30), "Insert Count: " + m_insertCount);
+        //GUI.Label(new Rect(10, 80, 1000, 30), "RemeshingTime: " + m_remeshingTime.ToString("F6") + " Remeshing Count: " + m_maximumRemeshingCountPerFrame);
+        //GUI.Label(new Rect(10, 100, 1000, 30), "InsertionTime: " + m_pointInsertionTime.ToString("F6"));
+        //GUI.Label(new Rect(10, 120, 1000, 30), "Last Update Time: " + m_lastUpdateTime.ToString("F6"));
+        //GUI.Label(new Rect(10, 140, 1000, 30), "Version: " + "15.06.05");
 
-        if (GUI.Button(new Rect(Screen.width - 160, 20, 140, 80), "Clear"))
-        {
-            Clear();
-        }
+        //if (GUI.Button(new Rect(Screen.width - 160, 20, 140, 80), "Clear"))
+        //{
+        //    Clear();
+        //}
     }
     
     /// <summary>

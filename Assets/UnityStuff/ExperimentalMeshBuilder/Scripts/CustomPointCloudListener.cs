@@ -197,7 +197,7 @@ public class CustomPointCloudListener : MonoBehaviour, ITangoDepth
             m_cubes[i].transform.parent = transform;
         }
 
-        syntheticRoom.SetActive(m_syntheticData);
+        //syntheticRoom.SetActive(m_syntheticData);
         ClearLivePreviewCubes();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
