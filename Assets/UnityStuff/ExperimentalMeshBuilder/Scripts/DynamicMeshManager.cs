@@ -146,7 +146,8 @@ public class DynamicMeshManager : MonoBehaviour
     /// </summary>
     public void Start()
     {
-    }
+		m_voxelResolution = Data.voxelResolution;
+	}
 
     /// <summary>
     /// Gets the time smoothing parameter.

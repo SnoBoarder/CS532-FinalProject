@@ -4,6 +4,7 @@ using System.Collections;
 public class Data : MonoBehaviour
 {
 	public static string fileName = "";
+	public static int voxelResolution = 10;
 
 	void Awake()
 	{
