@@ -172,56 +172,6 @@ public class CreateMeshListener : MonoBehaviour, ITangoDepth
     }
 
     /// <summary>
-    /// Read pose from file.
-    /// </summary>
-    /// <returns>The pose from file.</returns>
-    /// <param name="reader">File reader.</param>
-    /// <param name="pose">Tango pose data.</param>
-    public int ReadPoseFromFile(BinaryReader reader, ref TangoPoseData pose)
-    {
-        if (reader == null)
-        {
-            return -1;
-        }
-        
-        string frameMarker;
-        try
-        {
-            frameMarker = reader.ReadString();
-        }
-        catch (EndOfStreamException x) 
-        {
-            reader.BaseStream.Position = 0;
-            Reset();
-            print("Restarting log file: " + x.ToString());
-            frameMarker = reader.ReadString();
-        }
-        
-        if (frameMarker.CompareTo("poseframe\n") != 0)
-        {
-            m_debugText = "Failed to read pose";
-            return -1;
-        }
-        
-        pose.timestamp = double.Parse(reader.ReadString());
-        
-        TangoCoordinateFramePair pair = new TangoCoordinateFramePair();
-        pair.baseFrame = (Tango.TangoEnums.TangoCoordinateFrameType)reader.ReadInt32();
-        pair.targetFrame = (Tango.TangoEnums.TangoCoordinateFrameType)reader.ReadInt32();
-        pose.framePair = pair;
-        
-        pose.status_code = (Tango.TangoEnums.TangoPoseStatusType)reader.ReadInt32();
-        pose.translation[0] = reader.ReadDouble();
-        pose.translation[1] = reader.ReadDouble();
-        pose.translation[2] = reader.ReadDouble();
-        pose.orientation[0] = reader.ReadDouble();
-        pose.orientation[1] = reader.ReadDouble();
-        pose.orientation[2] = reader.ReadDouble();
-        pose.orientation[3] = reader.ReadDouble();
-        return 0;
-    }
-
-    /// <summary>
     /// Write depth data to file.
     /// </summary>
     /// <param name="writer">File writer.</param>

@@ -146,6 +146,7 @@ public class DynamicMeshManager : MonoBehaviour
     /// </summary>
     public void Start()
     {
+		// Tran, Brian addition: Adding reference to voxel resolution passed in from start screen.
 		m_voxelResolution = Data.voxelResolution;
 	}
 
