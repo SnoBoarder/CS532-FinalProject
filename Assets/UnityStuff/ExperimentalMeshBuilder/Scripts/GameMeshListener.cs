@@ -11,6 +11,10 @@ using Tango;
 /// </summary>
 public class GameMeshListener : MonoBehaviour, ITangoDepth
 {
+
+	public static event MeshBuildingCompleteHandler MeshBuildingComplete;
+	public delegate void MeshBuildingCompleteHandler();
+
     /**
      * Main Camera
      */    
@@ -97,29 +101,9 @@ public class GameMeshListener : MonoBehaviour, ITangoDepth
     private RaycastHit hitInfo = new RaycastHit();
 
     /**
-     * Raycast layer for synthetic room
-     */    
-    private int syntheticRoomLayer = 1 << 8;
-
-    /**
-     * Raycast distance for synthetic data
-     */    
-    private float syntheticRaycastMaxDistance = 4;
-
-    /**
      * Debug text field
      */    
     private string m_debugText;
-
-    /**
-     * pause playback or depth accumulation
-     */    
-    private bool m_pause = false;
-
-    /**
-     * step playback
-     */    
-    private bool m_step = false;
 
     /**
      * Track frame count
@@ -156,9 +140,17 @@ public class GameMeshListener : MonoBehaviour, ITangoDepth
 
         if (m_playbackData)
         {
-            string filename = m_recordingID + ".dat";
-            m_fileReader = new BinaryReader(File.Open(Application.persistentDataPath + "/" + filename, FileMode.Open));
-            m_debugText = "Loading from: " + filename + " " + m_fileReader.ToString();
+			if (Data.fileName == "")
+			{
+				string filename = m_recordingID + ".dat";
+				m_fileReader = new BinaryReader(File.Open(Application.persistentDataPath + "/" + filename, FileMode.Open));
+				m_debugText = "Loading from: " + filename + " " + m_fileReader.ToString();
+			}
+			else
+			{
+				m_fileReader = new BinaryReader(File.Open(Data.fileName, FileMode.Open));
+				m_debugText = "Loading from: " + Data.fileName;
+			}
         }
 
         m_tangoApplication = FindObjectOfType<TangoApplication>();
@@ -197,9 +189,14 @@ public class GameMeshListener : MonoBehaviour, ITangoDepth
     /// </summary>
     public void Reset()
     {
-        m_positionHistory.Clear();
-        m_meshManager.Clear();
-    }
+		m_playbackData = false;
+		
+		if (MeshBuildingComplete != null)
+			MeshBuildingComplete();
+
+		//m_positionHistory.Clear();
+		//m_meshManager.Clear();
+	}
     
     /// <summary>
     /// Write pose data to file.
@@ -406,38 +403,20 @@ public class GameMeshListener : MonoBehaviour, ITangoDepth
         Debug.DrawLine(transform.position + (frustumSize * transform.forward) - transform.right - transform.up, transform.position + (frustumSize * transform.forward) + transform.right - transform.up, frustumColor);
     }
 
-    /// <summary>
-    /// Update is called once per frame
-    /// It processes input keyfor pausing, steping.  It will also playback/record data or generate synthetic data.
-    /// If running on Tango device it will process depth data that was copied for the depth callback.
-    /// </summary>
     private void Update() 
     {
         m_frameCount++;
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            m_pause = !m_pause;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Slash))
-        {
-            m_step = true;
-        }
+		if (!m_playbackData)
+		{
+			return;
+		}
 
         // history
         for (int i = 0; i < m_positionHistory.Count - 1; i++)
         {
             Debug.DrawLine(m_positionHistory[i], m_positionHistory[i + 1], Color.white);
         }
-
-        if (m_pause && !m_step) 
-        {
-            DrawDebugLines();
-            return;
-        }
-
-        m_step = false;
 
         if (m_playbackData) 
         {
@@ -520,22 +499,7 @@ public class GameMeshListener : MonoBehaviour, ITangoDepth
         xform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f) * axisFixedQuat * extrinsics;
     }
 
-    /// <summary>
-    /// Display some on screen debug infromation and handles the record button.
-    /// </summary>
     private void OnGUI()
     {
-        GUI.Label(new Rect(10, 180, 1000, 30), "Depth Points: " + m_currTangoDepth.m_pointCount);
-        GUI.Label(new Rect(10, 200, 1000, 30), "Debug: " + m_debugText);
-
-        string buttonName = "Pause";
-        if (m_pause)
-        {
-            buttonName = "Resume";
-        }
-        if (GUI.Button(new Rect(Screen.width - 160, 220, 140, 80), buttonName))
-        {
-            m_pause = !m_pause;
-        }
     }
 }

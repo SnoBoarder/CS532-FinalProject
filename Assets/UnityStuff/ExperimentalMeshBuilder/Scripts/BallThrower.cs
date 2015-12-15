@@ -27,7 +27,7 @@ public class BallThrower : MonoBehaviour
 {
     public GameObject ballPrefab;
     public Camera mainCamera;
-    private float forwardVelocity = 5.0f;
+    private float forwardVelocity = 10.0f;
     
     private GameObject[] ballArray = new GameObject[10];
     private int currentBallID = 0;
@@ -64,7 +64,7 @@ public class BallThrower : MonoBehaviour
             if (Input.GetTouch(i).phase == TouchPhase.Began)
             {
                 ballArray[currentBallID].transform.position = mainCamera.transform.position - (mainCamera.transform.up * ballPrefab.transform.localScale.y);
-                ballArray[currentBallID].GetComponent<Rigidbody>().velocity = (mainCamera.transform.forward * forwardVelocity) + (mainCamera.transform.up * forwardVelocity / 2);
+				ballArray[currentBallID].GetComponent<Rigidbody>().velocity = (mainCamera.transform.forward * forwardVelocity);// + (mainCamera.transform.up * forwardVelocity / 2);
                 ballArray[currentBallID].SetActive(true);
                 currentBallID = (currentBallID + 1) % ballArray.Length;
             }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Data : MonoBehaviour
 {
-	public string fileName = "";
+	public static string fileName = "";
 
 	void Awake()
 	{

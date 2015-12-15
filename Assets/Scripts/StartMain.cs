@@ -54,6 +54,10 @@ public class StartMain : MonoBehaviour
 		if (GUI.Button(new Rect(Screen.width - SELECTION_WIDTH - BUTTON_WIDTH - PADDING, (Screen.height - BUTTON_HEIGHT) / 2 - BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT), "Play Selected Map"))
 		{
 			Debug.Log("Playing " + selectionGrid  + ": " + _files[selectionGrid]);
+
+			Data.fileName = _files[selectionGrid];
+
+			Application.LoadLevel("GameScene");
 		}
 
 		if (GUI.Button(new Rect(Screen.width - SELECTION_WIDTH - BUTTON_WIDTH - PADDING, (Screen.height - BUTTON_HEIGHT) / 2 + BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT), "Delete Selected Map"))
